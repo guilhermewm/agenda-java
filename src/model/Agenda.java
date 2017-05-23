@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Agenda {
-	private Map<String, Contato> agenda;
+	private TreeMap<String, Contato> agenda;
 	
 	private static Agenda ag = null;
 	
@@ -20,28 +20,33 @@ public class Agenda {
 		return ag;
 	}
 	
-	public Map<String, Contato> getAgenda() {
+	public TreeMap<String, Contato> getAgenda() {
 		return agenda;
 	}	
 	
-	public boolean addContato(Contato contato){
+	public String addContato(Contato contato){
 		if(ValidaContato.getInstance().validaNome(contato.getNome()) && ValidaContato.getInstance().validaTelefone(contato.getTelefone())){
 			if(!agenda.containsKey(contato.getNome())){
 				agenda.put(contato.getNome(), contato);
-				return true;
+				return "Usuário cadastrado";
 			}else{			
-				return false;
+				return "Não cadastrou o usuário";
 			}
 		}else{
-			return false;
+			return "Não cadastrou o usuário";
 		}		
 	}
 	
-	public Contato getTelefone(String nome){
+	
+	public String getTelefone(String nome){
 		if(ValidaContato.getInstance().validaNome(nome)){
-			return agenda.get(nome);
+			if(agenda.containsKey(nome)){
+				return agenda.get(nome).getTelefone();
+			}else{
+				return "Usuário não encontrado";
+			}			
 		}else{
-			return null;
+			return "Usuário não encontrado";
 		}
 	}
 	

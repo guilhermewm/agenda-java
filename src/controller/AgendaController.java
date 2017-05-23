@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.TreeMap;
+
 import model.Agenda;
 import model.Contato;
 
@@ -21,10 +23,14 @@ public class AgendaController {
 	}
 	
 	public String adicionaContato(String nome, String telefone){
-		if(Agenda.getInstance().addContato(criaContato(nome, telefone))){
-			return "Cadastrado com sucesso";
-		}else{
-			return "Não cadastrado";
-		}
+		return Agenda.getInstance().addContato(criaContato(nome, telefone));		
+	}
+	
+	public String getTelefone(String nome){
+		return Agenda.getInstance().getTelefone(nome);
+	}
+	
+	public TreeMap<String, Contato> getListaContatos(){
+		return Agenda.getInstance().getAgenda();
 	}
 }

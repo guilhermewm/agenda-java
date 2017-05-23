@@ -5,11 +5,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import controller.AgendaController;
+import model.Agenda;
 
 import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -52,7 +55,7 @@ public class JanelaPrincipal extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+		JScrollPane scrollPane = new JScrollPane();
 		JLabel lblNome = new JLabel("Nome:");
 		
 		JLabel lblTelefone = new JLabel("Telefone:");
@@ -79,6 +82,12 @@ public class JanelaPrincipal extends JFrame {
 		textFieldNomeBusca.setColumns(10);
 		
 		JButton btnBuscarTelefone = new JButton("Buscar Telefone");
+		btnBuscarTelefone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nome = textFieldNomeBusca.getText();
+				textFieldTelefoneBuscado.setText(Agenda.getInstance().getTelefone(nome));
+			}
+		});
 		
 		JLabel lblTelefoneBuscado = new JLabel("Telefone buscado:");
 		
@@ -87,9 +96,26 @@ public class JanelaPrincipal extends JFrame {
 		textFieldTelefoneBuscado.setEnabled(false);
 		textFieldTelefoneBuscado.setColumns(10);
 		
-		JButton btnListarContatos = new JButton("Listar Contatos");
-		
 		JList listContatos = new JList();
+		scrollPane.setViewportView(listContatos);		
+		
+		JButton btnListarContatos = new JButton("Listar Contatos");
+		btnListarContatos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DefaultListModel dlm = new DefaultListModel();
+				
+				if(Agenda.getInstance().getAgenda().size() > 0){			
+					for (String key : Agenda.getInstance().getAgenda().keySet()){            
+						dlm.addElement(Agenda.getInstance().getAgenda().get(key).toString());
+					}	
+				}else{
+					dlm.addElement("Não há pessoas no estabelecimento");
+				}			
+				listContatos.setModel(dlm);
+			}
+		});
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)

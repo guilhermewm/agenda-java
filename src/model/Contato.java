@@ -16,6 +16,11 @@ public class Contato {
 	public String getTelefone() {
 		return telefone;
 	}
+
+	@Override
+	public String toString() {
+		return "Contato [nome=" + nome + ", telefone=" + telefone + "]";
+	}
 	
 	
 }
