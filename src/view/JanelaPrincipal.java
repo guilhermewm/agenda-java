@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.awt.event.ActionEvent;
 
 public class JanelaPrincipal extends JFrame {
@@ -37,7 +38,7 @@ public class JanelaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JanelaPrincipal frame = new JanelaPrincipal();
+					JanelaPrincipal frame = new JanelaPrincipal();					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,8 +49,10 @@ public class JanelaPrincipal extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws FileNotFoundException 
 	 */
-	public JanelaPrincipal() {
+	public JanelaPrincipal() throws FileNotFoundException {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 343, 426);
 		contentPane = new JPanel();
@@ -85,7 +88,7 @@ public class JanelaPrincipal extends JFrame {
 		btnBuscarTelefone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String nome = textFieldNomeBusca.getText();
-				textFieldTelefoneBuscado.setText(Agenda.getInstance().getTelefone(nome));
+				textFieldTelefoneBuscado.setText(AgendaController.getInstance().getTelefone(nome));
 			}
 		});
 		
@@ -101,12 +104,13 @@ public class JanelaPrincipal extends JFrame {
 		
 		JButton btnListarContatos = new JButton("Listar Contatos");
 		btnListarContatos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {	
+				
 				DefaultListModel dlm = new DefaultListModel();
 				
-				if(Agenda.getInstance().getAgenda().size() > 0){			
-					for (String key : Agenda.getInstance().getAgenda().keySet()){            
-						dlm.addElement(Agenda.getInstance().getAgenda().get(key).toString());
+				if(AgendaController.getInstance().getListaContatos().size() > 0){			
+					for (String key : AgendaController.getInstance().getListaContatos().keySet()){            
+						dlm.addElement(AgendaController.getInstance().getListaContatos().get(key).toString());
 					}	
 				}else{
 					dlm.addElement("Não há pessoas no estabelecimento");

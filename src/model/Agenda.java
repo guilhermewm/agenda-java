@@ -1,8 +1,11 @@
 package model;
 
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.TreeMap;
+
+import dados.GerenciaArquivos;
 
 public class Agenda {
 	private TreeMap<String, Contato> agenda;
@@ -11,6 +14,7 @@ public class Agenda {
 	
 	private Agenda(){
 		this.agenda = new TreeMap<String, Contato>();
+		this.agenda = GerenciaArquivos.getInstance().lerArquivo();
 	}
 	
 	public static Agenda getInstance(){
@@ -28,6 +32,7 @@ public class Agenda {
 		if(ValidaContato.getInstance().validaNome(contato.getNome()) && ValidaContato.getInstance().validaTelefone(contato.getTelefone())){
 			if(!agenda.containsKey(contato.getNome())){
 				agenda.put(contato.getNome(), contato);
+				GerenciaArquivos.getInstance().salvaDadosEmArquivo(contato);
 				return "Usuário cadastrado";
 			}else{			
 				return "Não cadastrou o usuário";

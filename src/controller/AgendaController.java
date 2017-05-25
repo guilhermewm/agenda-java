@@ -1,7 +1,9 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.util.TreeMap;
 
+import dados.GerenciaArquivos;
 import model.Agenda;
 import model.Contato;
 
@@ -32,5 +34,9 @@ public class AgendaController {
 	
 	public TreeMap<String, Contato> getListaContatos(){
 		return Agenda.getInstance().getAgenda();
+	}
+
+	public void leArquivo() throws FileNotFoundException {
+		GerenciaArquivos.getInstance().lerArquivo();		
 	}
 }
